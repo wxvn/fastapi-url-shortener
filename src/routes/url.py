@@ -22,7 +22,7 @@ def get_url_service(db: AsyncSession = Depends(get_db)) -> UrlService:
     return UrlService(repository, generator)
 
 
-@router.post("/", response_model=URLResponse)
+@router.post("", response_model=URLResponse)
 async def create_url(data: URLCreate, current_user_id: UUID = Depends(auth), service: UrlService = Depends(get_url_service)):
     url = await service.create_url(
         user_id=current_user_id,

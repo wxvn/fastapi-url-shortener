@@ -3,7 +3,6 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 
-from src.database import init_db
 from src.errors import AppError
 from src.routes.users import router as users_router
 from src.routes.auth import router as auth_router
@@ -12,13 +11,9 @@ from src.routes.redirect import router as redirect_router
 from src.middleware import request_id_middleware, recovery_middleware
 
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    await init_db()
-    yield
 
 
-app = FastAPI(lifespan=lifespan)
+app = FastAPI()
 
 app.middleware("http")(request_id_middleware)
 app.middleware("http")(recovery_middleware)
